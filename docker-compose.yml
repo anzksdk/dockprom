@@ -98,9 +98,11 @@ services:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
       - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_HTTP_PORT=23949
+
     restart: unless-stopped
     expose:
-      - 3000
+      - 23949
     networks:
       - monitor-net
     labels:
@@ -121,12 +123,13 @@ services:
     image: caddy:2.3.0
     container_name: caddy
     ports:
-      - "3000:3000"
+      - "23949:23949"
       - "9090:9090"
       - "9093:9093"
       - "9091:9091"
     volumes:
       - ./caddy:/etc/caddy
+      - ./caddy/ssl:/ssl
     environment:
       - ADMIN_USER=${ADMIN_USER:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
